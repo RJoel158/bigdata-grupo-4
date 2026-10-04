@@ -5,7 +5,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose%20v2%2B-blue.svg)](https://www.docker.com/)
 [![University](https://img.shields.io/badge/Universidad-Privada%20del%20Valle-green.svg)](https://www.univalle.edu/)
 [![Grupo](https://img.shields.io/badge/Grupo-4-orange.svg)]()
-[![Status](https://img.shields.io/badge/Estado%20y%20Validado-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Estado%20Validado-brightgreen.svg)]()
 
 ---
 

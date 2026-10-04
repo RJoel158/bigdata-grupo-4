@@ -93,31 +93,6 @@ graph TD
     HS --- V_HS
 ```
 
-### Arquitectura por Capas
-
-
-1. **Introducción y Entorno Host (Capa Superior):**
-   > *"En la capa superior tenemos nuestra máquina anfitriona (Host Local Windows con Docker Engine). Desde aquí interactuamos con el clúster de dos maneras: a nivel de consola, mediante Docker CLI ejecutando `docker exec` para ingresar al NameNode y correr comandos de terminal; y a nivel visual, desde el Navegador Web del Host, mapeando los puertos clave: el puerto `9870` para la interfaz de HDFS, el `8088` para la gestión de recursos de YARN, y el `8188` para consultar el historial de trabajos en HistoryServer."*
-
-2. **Red y Capa de Almacenamiento Distribuido (HDFS):**
-   > *"Todos los contenedores conviven dentro de una red virtual aislada tipo Bridge llamada `hadoop-network`, lo que permite que se comuniquen entre sí por su nombre de host. El almacenamiento distribuido se divide en dos roles esenciales:*
-   > * * **NAMENODE (Master):** No almacena los datos pesados en sí, sino el árbol del sistema de archivos, inodos y metadatos (`FsImage` y `Edits`). Escucha peticiones internas en el puerto RPC `9000` y expone su Web UI en el `9870`.*
-   > * * **DATANODE (Storage Slave):** Es el nodo trabajador encargado de almacenar físicamente los bloques de datos divididos. Se comunica constantemente con el NameNode por el puerto `9000` enviándole 'Heartbeats' y reportes de bloques disponibles."*
-
-3. **Capa de Procesamiento y Cómputo Distribuido (YARN):**
-   > *"Hadoop no solo almacena, también procesa, y esa labor la gestiona YARN:*
-   > * * **RESOURCEMANAGER (Master):** Coordina los recursos de cómputo de todo el clúster y asigna las aplicaciones a ejecutar, comunicándose con el NameNode para ubicar dónde residen los datos a procesar.*
-   > * * **NODEMANAGER (Worker):** Ejecuta físicamente los contenedores de cómputo donde corren las tareas de procesamiento (como los mappers y reducers en MapReduce).*
-   > * * **HISTORYSERVER:** Recibe el registro de trabajos finalizados y mantiene un historial persistente de métricas y logs accesible por el puerto `8188`."*
-
-4. **Capa de Persistencia (Capa Inferior):**
-   > *"Finalmente, para evitar perder la información cuando los contenedores se detienen o reinician, se implementaron Volúmenes Nombrados de Docker en el host:*
-   > * * `hadoop_namenode` montado en `/hadoop/dfs/name` para persistir la tabla de metadatos.*
-   > * * `hadoop_datanode` montado en `/hadoop/dfs/data` para resguardar los bloques de archivos reales subidos por los usuarios.*
-   > * * `hadoop_historyserver` montado en `/hadoop/yarn/timeline` para conservar los logs de ejecución."*
-
-5. **Cierre:**
-   > *"Gracias a esta arquitectura, cuando ejecutamos un `hdfs dfs -put`, el cliente le pide ubicación al NameNode, el archivo se transfiere y almacena en bloques dentro del DataNode, persiste en el volumen de disco y podemos visualizarlo en tiempo real navegando al puerto `9870` desde nuestro navegador."*
 
 ---
 

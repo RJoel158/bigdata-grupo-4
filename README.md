@@ -93,9 +93,8 @@ graph TD
     HS --- V_HS
 ```
 
-### 4.2 Guion de Exposición de la Arquitectura por Capas
+### Arquitectura por Capas
 
-Para defender este diagrama ante el docente, la arquitectura se expone en 4 capas pedagógicas:
 
 1. **Introducción y Entorno Host (Capa Superior):**
    > *"En la capa superior tenemos nuestra máquina anfitriona (Host Local Windows con Docker Engine). Desde aquí interactuamos con el clúster de dos maneras: a nivel de consola, mediante Docker CLI ejecutando `docker exec` para ingresar al NameNode y correr comandos de terminal; y a nivel visual, desde el Navegador Web del Host, mapeando los puertos clave: el puerto `9870` para la interfaz de HDFS, el `8088` para la gestión de recursos de YARN, y el `8188` para consultar el historial de trabajos en HistoryServer."*
@@ -117,7 +116,7 @@ Para defender este diagrama ante el docente, la arquitectura se expone en 4 capa
    > * * `hadoop_datanode` montado en `/hadoop/dfs/data` para resguardar los bloques de archivos reales subidos por los usuarios.*
    > * * `hadoop_historyserver` montado en `/hadoop/yarn/timeline` para conservar los logs de ejecución."*
 
-5. **Frase de Cierre (Conexión con la Prueba Funcional):**
+5. **Cierre:**
    > *"Gracias a esta arquitectura, cuando ejecutamos un `hdfs dfs -put`, el cliente le pide ubicación al NameNode, el archivo se transfiere y almacena en bloques dentro del DataNode, persiste en el volumen de disco y podemos visualizarlo en tiempo real navegando al puerto `9870` desde nuestro navegador."*
 
 ---

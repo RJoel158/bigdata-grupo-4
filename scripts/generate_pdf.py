@@ -2,7 +2,7 @@
 Script para generar el documento PDF formal de la Guía de Demostración y Defensa Oral (LG14)
 Universidad del Valle - Big Data / Sistemas Distribuidos
 Grupo 4: Joel Saavedra, Mauricio Linaja, Rommel Gutierrez
-Estilo: Académico y formal (sin emojis)
+Estilo: Académico y formal (sin emojis), con explicación de 4 capas arquitectónicas.
 """
 
 import os
@@ -73,8 +73,8 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'DocTitle',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
-        fontSize=14,
-        leading=17,
+        fontSize=13.5,
+        leading=16.5,
         textColor=colors.white,
         alignment=1
     )
@@ -83,8 +83,8 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'DocSubTitle',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=8.5,
-        leading=11.5,
+        fontSize=8.2,
+        leading=11,
         textColor=colors.HexColor("#E2E8F0"),
         alignment=1
     )
@@ -93,11 +93,11 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'Header1',
         parent=styles['Heading1'],
         fontName='Helvetica-Bold',
-        fontSize=11,
-        leading=13.5,
+        fontSize=10.5,
+        leading=13,
         textColor=primary_color,
-        spaceBefore=7,
-        spaceAfter=3.5,
+        spaceBefore=6,
+        spaceAfter=3,
         keepWithNext=True
     )
 
@@ -105,10 +105,10 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'BodyTextCustom',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=7.8,
-        leading=10.2,
+        fontSize=7.4,
+        leading=9.6,
         textColor=dark_neutral,
-        spaceAfter=2.5
+        spaceAfter=2
     )
 
     bold_body = ParagraphStyle(
@@ -121,8 +121,8 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'QuoteText',
         parent=styles['Normal'],
         fontName='Helvetica-Oblique',
-        fontSize=7.8,
-        leading=10.2,
+        fontSize=7.4,
+        leading=9.6,
         textColor=colors.HexColor("#1A202C")
     )
 
@@ -130,8 +130,8 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'CodeStyle',
         parent=styles['Normal'],
         fontName='Courier-Bold',
-        fontSize=7,
-        leading=8.5,
+        fontSize=6.8,
+        leading=8.2,
         textColor=colors.HexColor("#742A2A")
     )
 
@@ -139,8 +139,8 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'TableCell',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=7.4,
-        leading=9.2,
+        fontSize=7.1,
+        leading=8.8,
         textColor=dark_neutral
     )
 
@@ -155,15 +155,15 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         'TableHeader',
         parent=table_cell,
         fontName='Helvetica-Bold',
-        fontSize=7.6,
-        leading=9.5,
+        fontSize=7.3,
+        leading=9.2,
         textColor=colors.white,
         alignment=1
     )
 
     story = []
 
-    # BANNER PORTADA FORMAL (SIN EMOJIS)
+    # BANNER PORTADA FORMAL
     banner_data = [
         [
             Paragraph("UNIVERSIDAD PRIVADA DEL VALLE &nbsp;|&nbsp; FACULTAD DE INGENIERÍA", subtitle_style),
@@ -180,13 +180,13 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         ('BACKGROUND', (0,0), (-1,-1), primary_color),
         ('ALIGN', (0,0), (-1,-1), 'CENTER'),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+        ('TOPPADDING', (0,0), (-1,-1), 4.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4.5),
         ('LEFTPADDING', (0,0), (-1,-1), 8),
         ('RIGHTPADDING', (0,0), (-1,-1), 8),
     ]))
     story.append(banner_table)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 4))
 
     # CRITERIO RECTOR
     rector_box = [
@@ -198,11 +198,11 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
     rector_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#EBF8FF")),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#3182CE")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3),
         ('ALIGN', (0,0), (-1,-1), 'CENTER')
     ]))
     story.append(rector_table)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 4))
 
     # SECCIÓN 1: CRONOGRAMA
     story.append(Paragraph("1. Cronograma de la Presentación (7 a 10 Minutos)", h1_style))
@@ -218,14 +218,14 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
             Paragraph("Justificar la elección de Apache Hadoop (HDFS/MapReduce) y registro formal del repositorio.", table_cell)
         ],
         [
-            Paragraph("<b>2. Arquitectura del Clúster</b>", table_cell),
+            Paragraph("<b>2. Arquitectura (4 Capas)</b>", table_cell),
             Paragraph("2 min", table_cell_bold),
-            Paragraph("Explicar los 5 contenedores, red Bridge, volúmenes de persistencia y flujo RPC.", table_cell)
+            Paragraph("Explicar las 4 capas: Host, HDFS (NameNode/DataNode), YARN (RM/NM/History) y Persistencia.", table_cell)
         ],
         [
             Paragraph("<b>3. Demostración en Vivo</b>", table_cell),
             Paragraph("4 min", table_cell_bold),
-            Paragraph("Validar docker ps, HDFS Web UI (localhost:9870), comandos HDFS y Job MapReduce en YARN.", table_cell)
+            Paragraph("Validar docker ps, Web UI HDFS (localhost:9870), comandos HDFS y Job MapReduce en YARN.", table_cell)
         ],
         [
             Paragraph("<b>4. Comparativa con docker-hadoop</b>", table_cell),
@@ -235,7 +235,7 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         [
             Paragraph("<b>5. Conclusiones y Cierre</b>", table_cell),
             Paragraph("1 min", table_cell_bold),
-            Paragraph("Presentar historial de 6 commits atómicos y responder preguntas defensivas.", table_cell)
+            Paragraph("Presentar historial de commits atómicos y responder preguntas defensivas.", table_cell)
         ],
     ]
     crono_table = Table(crono_data, colWidths=[130, 45, 365])
@@ -243,11 +243,11 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         ('BACKGROUND', (0,0), (-1,0), secondary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E0")),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('PADDING', (0,0), (-1,-1), 3),
+        ('PADDING', (0,0), (-1,-1), 2.5),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, light_bg])
     ]))
     story.append(crono_table)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 4))
 
     # SECCIÓN 2: GUION DE ORATORIA - FASE 1 Y 2
     story.append(Paragraph("2. Guion de Oratoria y Acciones en Pantalla", h1_style))
@@ -261,45 +261,38 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         ],
         [
             Paragraph('"Buenas tardes docente y compañeros. Para la práctica LG14 seleccionamos el repositorio público <b>hadoop-hdfs-map-reduce-docker</b> de Martin Castro Alvarez.<br/>Elegimos Apache Hadoop versión 3.2.1 porque implementa el estándar industrial de Big Data para almacenamiento distribuido en HDFS y procesamiento paralelo MapReduce vía Hadoop Streaming, cumpliendo con la consigna de ser un entorno completamente contenerizado y reproducible mediante Docker Compose."', quote_style)
-        ],
-        [
-            Paragraph("<b>Punto Clave a Resaltar:</b> Cumple con ser diferente al repositorio base, utiliza Docker Compose con 5 servicios y permite pruebas funcionales completas de lectura, escritura y MapReduce.", body_style)
         ]
     ]
     t_f1 = Table(f1_box, colWidths=[540])
     t_f1.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), light_bg),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#E2E8F0")),
     ]))
     story.append(t_f1)
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3.5))
 
     f2_box = [
         [
-            Paragraph("<b>FASE 2: Comprensión y Análisis de la Arquitectura (2 Minutos)</b>", table_cell_bold)
+            Paragraph("<b>FASE 2: Exposición de la Arquitectura en 4 Capas (2 Minutos)</b>", table_cell_bold)
         ],
         [
             Paragraph("<b>Acción en Pantalla:</b> Mostrar el Diagrama Mermaid de Arquitectura en el README.md (Sección 4).", body_style)
         ],
         [
-            Paragraph('"Analizando la arquitectura técnica, nuestro clúster se compone de 5 contenedores orquestados sobre la red Bridge privada <b>hadoop-network</b>:<br/>'
-                      '1. <b>namenode:</b> Nodo maestro HDFS. Expone el puerto 9870 (Web UI) y 9000 (IPC/RPC). Administra el namespace y tabla de inodos.<br/>'
-                      '2. <b>datanode:</b> Nodo esclavo de almacenamiento. Guarda físicamente los bloques de datos y reporta métricas en el puerto 9864.<br/>'
-                      '3. <b>resourcemanager & nodemanager:</b> Capa YARN para planificar recursos y ejecutar contenedores de cómputo Mapper y Reducer.<br/>'
-                      '4. <b>historyserver:</b> Mantiene el historial de jobs y logs en el puerto 8188.<br/>'
-                      '5. <b>Volúmenes Nombrados:</b> hadoop_namenode y hadoop_datanode para persistencia física en disco."', quote_style)
-        ],
-        [
-            Paragraph("<b>Punto Clave a Resaltar:</b> Los servicios se comunican mediante resolución DNS interna (hdfs://namenode:9000).", body_style)
+            Paragraph("<b>1. Capa Superior (Host Local Windows):</b> \"Desde aquí interactuamos con el clúster a nivel de consola mediante Docker CLI ejecutando docker exec para ingresar al NameNode, y a nivel visual desde el Navegador Web en los puertos clave: 9870 (HDFS), 8088 (YARN) y 8188 (HistoryServer).\"<br/>"
+                      "<b>2. Red y Capa HDFS (Almacenamiento):</b> \"Los contenedores conviven en la red Bridge privada hadoop-network. El NameNode administra el namespace e inodos en memoria y atiende en el puerto 9000; el DataNode guarda físicamente los bloques de datos y reporta heartbeats y métricas en el puerto 9864.\"<br/>"
+                      "<b>3. Capa YARN (Cómputo Distribuido):</b> \"El ResourceManager coordina recursos globales, el NodeManager ejecuta los contenedores de cómputo Mapper/Reducer y el HistoryServer almacena logs de trabajos finalizados.\"<br/>"
+                      "<b>4. Capa de Persistencia (Inferior):</b> \"Volúmenes nombrados hadoop_namenode, hadoop_datanode y hadoop_historyserver preservan metadatos, bloques y logs en el disco del host ante reinicios.\"<br/>"
+                      "<b>Cierre de Arquitectura:</b> \"Gracias a esta arquitectura, cuando ejecutamos un hdfs dfs -put, el cliente le pide ubicación al NameNode, el archivo se transfiere y almacena en bloques dentro del DataNode, persiste en el volumen y lo auditamos en tiempo real en el puerto 9870.\"", quote_style)
         ]
     ]
     t_f2 = Table(f2_box, colWidths=[540])
     t_f2.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), light_bg),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#E2E8F0")),
     ]))
     story.append(t_f2)
@@ -338,7 +331,7 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
             Paragraph("<b>Paso 6: Consulta por Consola y Web UI (Requisito Obligatorio 3):</b><br/>"
                       "<code>hdfs dfs -ls /user/laboratorio</code><br/>"
                       "<code>hdfs dfs -cat /user/laboratorio/prueba_hdfs.txt</code><br/>"
-                      "<i>Navegación Web UI:</i> Ir a <b>http://localhost:9870 &gt; Utilities &gt; Browse the file system &gt; /user/laboratorio/prueba_hdfs.txt</b>.", body_style)
+                      "<i>Navegación Web UI:</i> Ir a <b>http://localhost:9870 &gt; Utilities &gt; Browse the file system &gt; /user/laboratorio/prueba_hdfs.txt</b>. Clic en <b>Head the file (first 32K)</b> para ver el contenido y auditar el <b>Block ID</b>.", body_style)
         ],
         [
             Paragraph("<b>Paso 7: Procesamiento Distribuido MapReduce con Hadoop Streaming:</b><br/>"
@@ -352,11 +345,11 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
     t_f3.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), light_bg),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#E2E8F0")),
     ]))
     story.append(t_f3)
-    story.append(Spacer(1, 4))
+    story.append(Spacer(1, 3.5))
 
     f4_box = [
         [
@@ -371,14 +364,14 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         ],
         [
             Paragraph('<b>Acción en Pantalla:</b> Ejecutar <code>git log --oneline</code> en terminal.<br/>'
-                      '"Finalizamos demostrando el historial de 6 commits atómicos realizados en nuestro repositorio <b>bigdata-grupo-4</b>, cumpliendo con la totalidad de requisitos del documento LG14. Quedamos a disposición para preguntas."', quote_style)
+                      '"Finalizamos demostrando el historial de commits atómicos realizados en nuestro repositorio <b>bigdata-grupo-4</b>, cumpliendo con la totalidad de requisitos del documento LG14. Quedamos a disposición para preguntas."', quote_style)
         ]
     ]
     t_f4 = Table(f4_box, colWidths=[540])
     t_f4.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), light_bg),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#E2E8F0")),
         ('BACKGROUND', (0,2), (-1,2), colors.HexColor("#E2E8F0")),
     ]))
@@ -456,11 +449,11 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         ('BACKGROUND', (0,0), (-1,0), secondary_color),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E0")),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('PADDING', (0,0), (-1,-1), 2.6),
+        ('PADDING', (0,0), (-1,-1), 2.5),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, light_bg])
     ]))
     story.append(comp_table)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 4))
 
     # SECCIÓN 4: BANCO DE PREGUNTAS DEFENSIVAS
     story.append(Paragraph("4. Banco de Preguntas Defensivas Resueltas", h1_style))
@@ -486,10 +479,10 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
     t_faq.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), light_bg),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E0")),
-        ('PADDING', (0,0), (-1,-1), 3.5),
+        ('PADDING', (0,0), (-1,-1), 3.2),
     ]))
     story.append(t_faq)
-    story.append(Spacer(1, 5))
+    story.append(Spacer(1, 4))
 
     # SECCIÓN 5: CHECKLIST
     story.append(Paragraph("5. Checklist Pre-Presentación y Commits del Repositorio", h1_style))
@@ -497,7 +490,7 @@ def build_pdf(filename="Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf"):
         "• <b>Docker Engine:</b> Activo y operativo en segundo plano.<br/>"
         "• <b>Contenedores:</b> 5 servicios en estado Up (docker ps) | Web UI HDFS: http://localhost:9870 | YARN: http://localhost:8088<br/>"
         "• <b>Terminal:</b> Carpeta del proyecto lista para demostración interactiva en consola Linux.<br/>"
-        "• <b>Historial de Commits:</b> 6 commits atómicos escalonados de Rjoel &lt;svr0035567@est.univalle.edu&gt;."
+        "• <b>Historial de Commits:</b> Commits atómicos escalonados de Rjoel &lt;svr0035567@est.univalle.edu&gt;."
     )
     story.append(Paragraph(chk_text, body_style))
 

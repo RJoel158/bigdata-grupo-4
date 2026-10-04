@@ -5,7 +5,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose%20v2%2B-blue.svg)](https://www.docker.com/)
 [![University](https://img.shields.io/badge/Universidad-Privada%20del%20Valle-green.svg)](https://www.univalle.edu/)
 [![Grupo](https://img.shields.io/badge/Grupo-4-orange.svg)]()
-[![Status](https://img.shields.io/badge/Estado%20Validado-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Estado-Desplegado%20y%20Validado-brightgreen.svg)]()
 
 ---
 
@@ -93,33 +93,32 @@ graph TD
     HS --- V_HS
 ```
 
-### 4.2 Contenedores y Funciones Detalladas
+### 4.2 Guion de Exposición de la Arquitectura por Capas
 
-1. **`namenode` (Master HDFS):**
-   * **Función:** Administra el árbol de directorios (*namespace*), la tabla de inodos, los registros de transacciones (`edits`) y la imagen de estado (`fsimage`). Determina en qué DataNodes residen los bloques físicos.
-   * **Imagen Docker:** `bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8`
-   * **Puertos Expuestos:** `9870` (HDFS Web UI) y `9000` (puerto IPC/RPC cliente `fs.defaultFS`).
-   * **Volumen:** `hadoop_namenode:/hadoop/dfs/name`.
+Para defender este diagrama ante el docente, la arquitectura se expone en 4 capas pedagógicas:
 
-2. **`datanode` (Storage Slave):**
-   * **Función:** Almacena y sirve los bloques de datos físicos. Comunica su estado al NameNode periódicamente mediante *Heartbeats* y reportes de bloques (*Block Reports*).
-   * **Imagen Docker:** `bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8`
-   * **Puertos Expuestos:** `9864` (DataNode Metrics Web UI).
-   * **Volumen:** `hadoop_datanode:/hadoop/dfs/data`.
+1. **Introducción y Entorno Host (Capa Superior):**
+   > *"En la capa superior tenemos nuestra máquina anfitriona (Host Local Windows con Docker Engine). Desde aquí interactuamos con el clúster de dos maneras: a nivel de consola, mediante Docker CLI ejecutando `docker exec` para ingresar al NameNode y correr comandos de terminal; y a nivel visual, desde el Navegador Web del Host, mapeando los puertos clave: el puerto `9870` para la interfaz de HDFS, el `8088` para la gestión de recursos de YARN, y el `8188` para consultar el historial de trabajos en HistoryServer."*
 
-3. **`resourcemanager` (YARN Master):**
-   * **Función:** Gestor global de recursos de cómputo del clúster (CPU y RAM). Arbitra la ejecución de las aplicaciones MapReduce.
-   * **Imagen Docker:** `bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8`
-   * **Puertos Expuestos:** `8088` (YARN Application Master Web UI).
+2. **Red y Capa de Almacenamiento Distribuido (HDFS):**
+   > *"Todos los contenedores conviven dentro de una red virtual aislada tipo Bridge llamada `hadoop-network`, lo que permite que se comuniquen entre sí por su nombre de host. El almacenamiento distribuido se divide en dos roles esenciales:*
+   > * * **NAMENODE (Master):** No almacena los datos pesados en sí, sino el árbol del sistema de archivos, inodos y metadatos (`FsImage` y `Edits`). Escucha peticiones internas en el puerto RPC `9000` y expone su Web UI en el `9870`.*
+   > * * **DATANODE (Storage Slave):** Es el nodo trabajador encargado de almacenar físicamente los bloques de datos divididos. Se comunica constantemente con el NameNode por el puerto `9000` enviándole 'Heartbeats' y reportes de bloques disponibles."*
 
-4. **`nodemanager` (YARN Worker):**
-   * **Función:** Agente por nodo encargado de lanzar, monitorizar y gestionar el ciclo de vida de los contenedores de cómputo donde corren las tareas *Map* y *Reduce*.
-   * **Imagen Docker:** `bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8`
-   * **Puertos Expuestos:** `8042` (NodeManager Web UI).
+3. **Capa de Procesamiento y Cómputo Distribuido (YARN):**
+   > *"Hadoop no solo almacena, también procesa, y esa labor la gestiona YARN:*
+   > * * **RESOURCEMANAGER (Master):** Coordina los recursos de cómputo de todo el clúster y asigna las aplicaciones a ejecutar, comunicándose con el NameNode para ubicar dónde residen los datos a procesar.*
+   > * * **NODEMANAGER (Worker):** Ejecuta físicamente los contenedores de cómputo donde corren las tareas de procesamiento (como los mappers y reducers en MapReduce).*
+   > * * **HISTORYSERVER:** Recibe el registro de trabajos finalizados y mantiene un historial persistente de métricas y logs accesible por el puerto `8188`."*
 
-5. **`historyserver`:**
-   * **Función:** Almacena y presenta el historial consolidado de trabajos MapReduce finalizados para auditoría y profiling.
-   * **Puertos Expuestos:** `8188` (JobHistory Web UI).
+4. **Capa de Persistencia (Capa Inferior):**
+   > *"Finalmente, para evitar perder la información cuando los contenedores se detienen o reinician, se implementaron Volúmenes Nombrados de Docker en el host:*
+   > * * `hadoop_namenode` montado en `/hadoop/dfs/name` para persistir la tabla de metadatos.*
+   > * * `hadoop_datanode` montado en `/hadoop/dfs/data` para resguardar los bloques de archivos reales subidos por los usuarios.*
+   > * * `hadoop_historyserver` montado en `/hadoop/yarn/timeline` para conservar los logs de ejecución."*
+
+5. **Frase de Cierre (Conexión con la Prueba Funcional):**
+   > *"Gracias a esta arquitectura, cuando ejecutamos un `hdfs dfs -put`, el cliente le pide ubicación al NameNode, el archivo se transfiere y almacena en bloques dentro del DataNode, persiste en el volumen de disco y podemos visualizarlo en tiempo real navegando al puerto `9870` desde nuestro navegador."*
 
 ---
 
@@ -140,7 +139,7 @@ docker ps
 
 ## 6. Pruebas Funcionales Obligatorias (Flujo Nativo en Terminal Linux del NameNode)
 
-Para una ejecución limpia y nativa de Hadoop, ingresamos directamente a la consola Linux del NameNode:
+Ingresamos directamente a la consola Linux del NameNode:
 
 ```bash
 winpty docker exec -it namenode bash
@@ -174,13 +173,14 @@ Sistemas Distribuidos Big Data - Saavedra, Linaja, Gutierrez (Grupo 4)
 ### 4. Comprobación Gráfica (Web UI de HDFS)
 1. Abrir en el navegador: [http://localhost:9870](http://localhost:9870)
 2. Ir a: **Utilities** > **Browse the file system**.
-3. Navegar a `/user/laboratorio/` y visualizar el archivo `prueba_hdfs.txt`, verificando sus metadatos (tamaño de bloque, réplicas, permisos y usuario `root`).
+3. Navegar a `/user/laboratorio/` y hacer clic en `prueba_hdfs.txt`.
+4. Hacer clic en **Head the file (first 32K)** para previsualizar el contenido en vivo y verificar el **Block ID** (`1073741998`) asignado en el `datanode`.
 
 ---
 
 ## 7. Prueba de Procesamiento Distribuido MapReduce (Hadoop Streaming)
 
-Dentro de la misma terminal de Linux del NameNode (`root@namenode:/#`), ejecutamos el trabajo distribuido MapReduce:
+Dentro de la terminal de Linux del NameNode (`root@namenode:/#`), ejecutamos el trabajo distribuido MapReduce:
 
 ### 1. Preparación del Dataset en HDFS
 ```bash
@@ -188,7 +188,12 @@ hdfs dfs -mkdir -p /input_mr
 echo -e "hadoop bigdata distributed hdfs\nhadoop mapreduce bigdata\nhdfs cluster saavedra linaja gutierrez grupo4" | hdfs dfs -put -f - /input_mr/data.txt
 ```
 
-### 2. Ejecución del Job MapReduce sobre YARN
+### 2. Limpieza de Salida Previa
+```bash
+hdfs dfs -rm -r -f /output_mr
+```
+
+### 3. Ejecución del Job MapReduce sobre YARN
 ```bash
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
   -files /app/mapper.sh,/app/reducer.sh \
@@ -198,7 +203,7 @@ hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
   -reducer reducer.sh
 ```
 
-### 3. Consulta de Resultados Agregados en HDFS
+### 4. Consulta de Resultados Agregados en HDFS
 ```bash
 hdfs dfs -cat /output_mr/part-00000
 ```
@@ -243,13 +248,13 @@ exit
 
 ## 9. Guía Maestra de Demostración y Oratoria (Defensa LG14)
 
-### ⏱️ Cronograma de la Presentación (7 a 10 Minutos)
+### Cronograma de la Presentación (7 a 10 Minutos)
 
 | Fase | Tiempo | Objetivo Principal de la Demostración |
 |---|---|---|
 | **1. Introducción y Selección** | 1 min | Justificar la selección del repositorio, presentar integrantes y registrar el proyecto formalmente. |
-| **2. Arquitectura del Clúster** | 2 min | Explicar el rol del NameNode, DataNode, la red Bridge, puertos 9870/9000 y persistencia de inodos. |
-| **3. Demostración en Vivo** | 4 min | Mostrar `docker ps`, entrar a la terminal Linux del NameNode, crear `/user/laboratorio`, leer `prueba_hdfs.txt` y correr MapReduce. |
+| **2. Arquitectura del Clúster** | 2 min | Explicar las 4 capas de la arquitectura (Host, HDFS, YARN, Persistencia) con el guion técnico. |
+| **3. Demostración en Vivo** | 4 min | Mostrar `docker ps`, entrar a Linux en NameNode, crear `/user/laboratorio`, leer `prueba_hdfs.txt` y correr MapReduce. |
 | **4. Comparativa con Hadoop Base** | 2 min | Defender la tabla comparativa de 11 criterios: versatilidad de Hadoop Streaming vs YARN monolítico. |
 | **5. Conclusiones y Cierre** | 1 min | Resumen de lecciones aprendidas, arquitectura desacoplada y disponibilidad para preguntas. |
 
@@ -263,3 +268,5 @@ exit
 4. `c1f61d5` — `docs: incorporar documentacion tecnica, arquitectura mermaid y comparativa de 11 criterios`
 5. `a9638ea` — `docs: agregar guia de oratoria, banco de preguntas defensivas y recursos de evidencias`
 6. `1f42d1d` — `docs(pdf): generar guia formal de oratoria y defensa oral en formato pdf`
+7. `38c1ad4` — `fix(reducer): corregir agrupacion y acumulacion de palabras repetidas en mapreduce streaming`
+8. `a8de5a7` — `docs: formalizar documentacion y guia pdf eliminando emojis y estandarizando oratoria academica`

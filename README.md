@@ -1,18 +1,18 @@
-# INFORME DE INVESTIGACIÓN Y DESPLIEGUE (LG14)
+# INFORME DE INVESTIGACIÓN Y DESPLIEGUE
 ## Despliegue y Validación de un Clúster Distribuido Apache Hadoop con HDFS y MapReduce en Docker
 
 [![Big Data](https://img.shields.io/badge/Big%20Data-Apache%20Hadoop%203.2.1-red.svg)](https://hadoop.apache.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose%20v2%2B-blue.svg)](https://www.docker.com/)
 [![University](https://img.shields.io/badge/Universidad-Privada%20del%20Valle-green.svg)](https://www.univalle.edu/)
 [![Grupo](https://img.shields.io/badge/Grupo-4-orange.svg)]()
-[![Status](https://img.shields.io/badge/Estado-Desplegado%20y%20Validado-brightgreen.svg)]()
+[![Status](https://img.shields.io/badge/Estado-%20Validado-brightgreen.svg)]()
 
 ---
 
-## 1. Portada y Registro Obligatorio del Repositorio
+## 1. Portada 
 
-* **Institución:** Universidad Privada del Valle (Univalle)
-* **Asignatura:** Tecnologías Emergentes / Big Data (Práctica LG14)
+* **Institución:** Universidad Privada del Valle
+* **Asignatura:** Tecnologías Emergentes / Big Data
 * **Grupo:** Grupo 4
 * **Nombre de los estudiantes:** 
   * Joel Saavedra
@@ -93,32 +93,6 @@ graph TD
     HS --- V_HS
 ```
 
-### 4.2 Guion de Exposición de la Arquitectura por Capas
-
-Para defender este diagrama ante el docente, la arquitectura se expone en 4 capas pedagógicas:
-
-1. **Introducción y Entorno Host (Capa Superior):**
-   > *"En la capa superior tenemos nuestra máquina anfitriona (Host Local Windows con Docker Engine). Desde aquí interactuamos con el clúster de dos maneras: a nivel de consola, mediante Docker CLI ejecutando `docker exec` para ingresar al NameNode y correr comandos de terminal; y a nivel visual, desde el Navegador Web del Host, mapeando los puertos clave: el puerto `9870` para la interfaz de HDFS, el `8088` para la gestión de recursos de YARN, y el `8188` para consultar el historial de trabajos en HistoryServer."*
-
-2. **Red y Capa de Almacenamiento Distribuido (HDFS):**
-   > *"Todos los contenedores conviven dentro de una red virtual aislada tipo Bridge llamada `hadoop-network`, lo que permite que se comuniquen entre sí por su nombre de host. El almacenamiento distribuido se divide en dos roles esenciales:*
-   > * * **NAMENODE (Master):** No almacena los datos pesados en sí, sino el árbol del sistema de archivos, inodos y metadatos (`FsImage` y `Edits`). Escucha peticiones internas en el puerto RPC `9000` y expone su Web UI en el `9870`.*
-   > * * **DATANODE (Storage Slave):** Es el nodo trabajador encargado de almacenar físicamente los bloques de datos divididos. Se comunica constantemente con el NameNode por el puerto `9000` enviándole 'Heartbeats' y reportes de bloques disponibles."*
-
-3. **Capa de Procesamiento y Cómputo Distribuido (YARN):**
-   > *"Hadoop no solo almacena, también procesa, y esa labor la gestiona YARN:*
-   > * * **RESOURCEMANAGER (Master):** Coordina los recursos de cómputo de todo el clúster y asigna las aplicaciones a ejecutar, comunicándose con el NameNode para ubicar dónde residen los datos a procesar.*
-   > * * **NODEMANAGER (Worker):** Ejecuta físicamente los contenedores de cómputo donde corren las tareas de procesamiento (como los mappers y reducers en MapReduce).*
-   > * * **HISTORYSERVER:** Recibe el registro de trabajos finalizados y mantiene un historial persistente de métricas y logs accesible por el puerto `8188`."*
-
-4. **Capa de Persistencia (Capa Inferior):**
-   > *"Finalmente, para evitar perder la información cuando los contenedores se detienen o reinician, se implementaron Volúmenes Nombrados de Docker en el host:*
-   > * * `hadoop_namenode` montado en `/hadoop/dfs/name` para persistir la tabla de metadatos.*
-   > * * `hadoop_datanode` montado en `/hadoop/dfs/data` para resguardar los bloques de archivos reales subidos por los usuarios.*
-   > * * `hadoop_historyserver` montado en `/hadoop/yarn/timeline` para conservar los logs de ejecución."*
-
-5. **Frase de Cierre (Conexión con la Prueba Funcional):**
-   > *"Gracias a esta arquitectura, cuando ejecutamos un `hdfs dfs -put`, el cliente le pide ubicación al NameNode, el archivo se transfiere y almacena en bloques dentro del DataNode, persiste en el volumen de disco y podemos visualizarlo en tiempo real navegando al puerto `9870` desde nuestro navegador."*
 
 ---
 
@@ -244,38 +218,4 @@ exit
 | **10. Documentación** | Enfocada en la infraestructura base del stack Big Data Europe | Práctica y enfocada en casos de uso, ejemplos de Streaming y pruebas funcionales |
 | **11. Caso de Uso Principal** | Base de infraestructura para montar ecosistemas pesados (Hive, Presto, Spark) | Laboratorio ágil de aprendizaje, validación de HDFS y ejecución directa de algoritmos MapReduce |
 
----
 
-## 9. Guía Maestra de Demostración y Oratoria (Defensa LG14)
-
-### Cronograma de la Presentación (7 a 10 Minutos)
-
-| Fase | Tiempo | Objetivo Principal de la Demostración |
-|---|---|---|
-| **1. Introducción y Selección** | 1 min | Justificar la selección del repositorio, presentar integrantes y registrar el proyecto formalmente. |
-| **2. Arquitectura del Clúster** | 2 min | Explicar las 4 capas de la arquitectura (Host, HDFS, YARN, Persistencia) con el guion técnico. |
-| **3. Demostración en Vivo** | 4 min | Mostrar `docker ps`, entrar a Linux en NameNode, crear `/user/laboratorio`, leer `prueba_hdfs.txt` y correr MapReduce. |
-| **4. Comparativa con Hadoop Base** | 2 min | Defender la tabla comparativa de 11 criterios: versatilidad de Hadoop Streaming vs YARN monolítico. |
-| **5. Conclusiones y Cierre** | 1 min | Resumen de lecciones aprendidas, arquitectura desacoplada y disponibilidad para preguntas. |
-
----
-
-## 10. Documentos Complementarios
-
-* 📄 **Guía de Resolución de Problemas:** Consulta [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) para revisar el diagnóstico técnico detallado de todas las incidencias resueltas (Git Bash URI scheme, YARN ShuffleHandler, colisión de directorios MapReduce, acumulación en Reducer y redirecciones WebHDFS).
-* 📑 **Guía de Demostración en PDF:** Documento formal imprimible `Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf`.
-
----
-
-## 11. Historial de Commits del Repositorio
-
-1. `39e8b11` — `feat: inicializar configuracion base docker-compose para cluster hadoop`
-2. `391fcb2` — `feat: implementar scripts de procesamiento mapreduce streaming y wordcount`
-3. `5a4ebf7` — `feat: implementar script de automatizacion y validacion de pruebas funcionales`
-4. `c1f61d5` — `docs: incorporar documentacion tecnica, arquitectura mermaid y comparativa de 11 criterios`
-5. `a9638ea` — `docs: agregar guia de oratoria, banco de preguntas defensivas y recursos de evidencias`
-6. `1f42d1d` — `docs(pdf): generar guia formal de oratoria y defensa oral en formato pdf`
-7. `38c1ad4` — `fix(reducer): corregir agrupacion y acumulacion de palabras repetidas en mapreduce streaming`
-8. `a8de5a7` — `docs: formalizar documentacion y guia pdf eliminando emojis y estandarizando oratoria academica`
-9. `99393bf` — `docs: incorporar guion de oratoria de arquitectura en 4 capas y regenerar pdf formal`
-10. `5358cfc` — `docs: incorporar guia formal de resolucion de problemas y troubleshooting tecnico`

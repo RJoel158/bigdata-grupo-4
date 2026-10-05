@@ -1,4 +1,4 @@
-# INFORME DE INVESTIGACIÓN Y DESPLIEGUE (LG14)
+# INFORME DE INVESTIGACIÓN Y DESPLIEGUE
 ## Despliegue y Validación de un Clúster Distribuido Apache Hadoop con HDFS y MapReduce en Docker
 
 [![Big Data](https://img.shields.io/badge/Big%20Data-Apache%20Hadoop%203.2.1-red.svg)](https://hadoop.apache.org/)
@@ -9,10 +9,10 @@
 
 ---
 
-## 1. Portada y Registro Obligatorio del Repositorio
+## 1. Portada 
 
-* **Institución:** Universidad Privada del Valle (Univalle)
-* **Asignatura:** Tecnologías Emergentes / Big Data (Práctica LG14)
+* **Institución:** Universidad Privada del Valle
+* **Asignatura:** Tecnologías Emergentes / Big Data
 * **Grupo:** Grupo 4
 * **Nombre de los estudiantes:** 
   * Joel Saavedra

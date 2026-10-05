@@ -220,17 +220,6 @@ exit
 
 ---
 
-## 9. Guía Maestra de Demostración y Oratoria (Defensa LG14)
-
-### Cronograma de la Presentación (7 a 10 Minutos)
-
-| Fase | Tiempo | Objetivo Principal de la Demostración |
-|---|---|---|
-| **1. Introducción y Selección** | 1 min | Justificar la selección del repositorio, presentar integrantes y registrar el proyecto formalmente. |
-| **2. Arquitectura del Clúster** | 2 min | Explicar las 4 capas de la arquitectura (Host, HDFS, YARN, Persistencia) con el guion técnico. |
-| **3. Demostración en Vivo** | 4 min | Mostrar `docker ps`, entrar a Linux en NameNode, crear `/user/laboratorio`, leer `prueba_hdfs.txt` y correr MapReduce. |
-| **4. Comparativa con Hadoop Base** | 2 min | Defender la tabla comparativa de 11 criterios: versatilidad de Hadoop Streaming vs YARN monolítico. |
-| **5. Conclusiones y Cierre** | 1 min | Resumen de lecciones aprendidas, arquitectura desacoplada y disponibilidad para preguntas. |
 
 ---
 

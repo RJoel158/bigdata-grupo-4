@@ -218,4 +218,10 @@ exit
 | **10. Documentación** | Enfocada en la infraestructura base del stack Big Data Europe | Práctica y enfocada en casos de uso, ejemplos de Streaming y pruebas funcionales |
 | **11. Caso de Uso Principal** | Base de infraestructura para montar ecosistemas pesados (Hive, Presto, Spark) | Laboratorio ágil de aprendizaje, validación de HDFS y ejecución directa de algoritmos MapReduce |
 
+---
+
+## 9. Creditos por imagenes externas de flujo:
+  https://youtu.be/sgn6yIERIkw
+  HADOOP vs SPARK | ¿CUÁL es MEJOR para tu Proyecto? | ILUSTRADO ✍️ !! | 2024
+  ![alt text](image.png)
 

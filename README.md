@@ -218,18 +218,4 @@ exit
 | **10. Documentación** | Enfocada en la infraestructura base del stack Big Data Europe | Práctica y enfocada en casos de uso, ejemplos de Streaming y pruebas funcionales |
 | **11. Caso de Uso Principal** | Base de infraestructura para montar ecosistemas pesados (Hive, Presto, Spark) | Laboratorio ágil de aprendizaje, validación de HDFS y ejecución directa de algoritmos MapReduce |
 
----
 
-
----
-
-## 10. Historial de Commits del Repositorio
-
-1. `39e8b11` — `feat: inicializar configuracion base docker-compose para cluster hadoop`
-2. `391fcb2` — `feat: implementar scripts de procesamiento mapreduce streaming y wordcount`
-3. `5a4ebf7` — `feat: implementar script de automatizacion y validacion de pruebas funcionales`
-4. `c1f61d5` — `docs: incorporar documentacion tecnica, arquitectura mermaid y comparativa de 11 criterios`
-5. `a9638ea` — `docs: agregar guia de oratoria, banco de preguntas defensivas y recursos de evidencias`
-6. `1f42d1d` — `docs(pdf): generar guia formal de oratoria y defensa oral en formato pdf`
-7. `38c1ad4` — `fix(reducer): corregir agrupacion y acumulacion de palabras repetidas en mapreduce streaming`
-8. `a8de5a7` — `docs: formalizar documentacion y guia pdf eliminando emojis y estandarizando oratoria academica`

@@ -260,7 +260,14 @@ exit
 
 ---
 
-## 10. Historial de Commits del Repositorio
+## 10. Documentos Complementarios
+
+* 📄 **Guía de Resolución de Problemas:** Consulta [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) para revisar el diagnóstico técnico detallado de todas las incidencias resueltas (Git Bash URI scheme, YARN ShuffleHandler, colisión de directorios MapReduce, acumulación en Reducer y redirecciones WebHDFS).
+* 📑 **Guía de Demostración en PDF:** Documento formal imprimible `Guia_Demostracion_y_Defensa_LG14_Grupo4.pdf`.
+
+---
+
+## 11. Historial de Commits del Repositorio
 
 1. `39e8b11` — `feat: inicializar configuracion base docker-compose para cluster hadoop`
 2. `391fcb2` — `feat: implementar scripts de procesamiento mapreduce streaming y wordcount`
@@ -270,3 +277,5 @@ exit
 6. `1f42d1d` — `docs(pdf): generar guia formal de oratoria y defensa oral en formato pdf`
 7. `38c1ad4` — `fix(reducer): corregir agrupacion y acumulacion de palabras repetidas en mapreduce streaming`
 8. `a8de5a7` — `docs: formalizar documentacion y guia pdf eliminando emojis y estandarizando oratoria academica`
+9. `99393bf` — `docs: incorporar guion de oratoria de arquitectura en 4 capas y regenerar pdf formal`
+10. `5358cfc` — `docs: incorporar guia formal de resolucion de problemas y troubleshooting tecnico`
